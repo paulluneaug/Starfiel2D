@@ -3,14 +3,15 @@
 
 #include <iostream>
 
+#include "Player.hpp"
+
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode({ 200, 200 }), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "StarField2D", sf::Style::Close, sf::State::Windowed);
 	std::cout << "Hello World" << std::endl;
 
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    Player player;
 
     while (window.isOpen())
     {
@@ -20,7 +21,17 @@ int main()
             // "close requested" event: we close the window
             if (event->is<sf::Event::Closed>())
                 window.close();
+
+            if (const sf::Event::KeyPressed* keyPressed = event->getIf<sf::Event::KeyPressed>())
+                player.HandleInput(keyPressed->scancode, true);
+            if (const sf::Event::KeyReleased* keyReleased = event->getIf<sf::Event::KeyReleased>())
+                player.HandleInput(keyReleased->scancode, false);
         }
+        player.Move();
+
+        window.clear();
+        window.draw(player.GetSprite());
+        window.display();
     }
 
 	return 0;
