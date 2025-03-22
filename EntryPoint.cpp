@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+#include "Camera.hpp"
 #include "Player.hpp"
 
 
@@ -12,16 +13,9 @@ int main()
     std::cout << "Hello World" << std::endl;
 
     // Background
-    sf::Texture windowTexture("res/PSY.png");
-    windowTexture.setRepeated(true);
-    sf::RectangleShape rectangleWindow({800*10,800*10});
-    rectangleWindow.setPosition({0,0});
-    rectangleWindow.setOrigin({rectangleWindow.getSize().x / 2, rectangleWindow.getSize().y / 2});
-    rectangleWindow.setTexture(&windowTexture);
-    rectangleWindow.setTextureRect({{0,0}, {static_cast<int>(windowTexture.getSize().x*10),static_cast<int>(windowTexture.getSize().y*10)}});
     
     Player player;
-    sf::View cameraView({0.f,0.f}, {400.f, 400.f});
+    Camera camera;
     sf::Clock deltaTime; deltaTime.start();
 
     while (window.isOpen())
@@ -40,13 +34,17 @@ int main()
         }
         player.Move(deltaTime.getElapsedTime().asSeconds());
 
-        cameraView.setCenter(player.GetPosition());
-        window.setView(cameraView);
+        // Camera work
+        camera.ChangePosition(player.GetPosition());
+        camera.UpdateView(window);
 
         window.clear();
-        window.draw(rectangleWindow);
-        window.draw(player.GetSprite());
+        
+        camera.Draw(window);
+        player.Draw(window);
+        
         window.display();
+        
         deltaTime.restart();
     }
 

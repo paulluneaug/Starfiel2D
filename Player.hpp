@@ -1,8 +1,7 @@
 #pragma once
 #include <unordered_map>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
 class Player
 {
@@ -30,6 +29,9 @@ public:
     void HandleInput(const sf::Keyboard::Scancode& scancode, bool isPressed);
     void Move(const float& deltaTime);
     void ClampMovement();
+
+    void Draw(sf::RenderWindow& window) const;
+    
     const sf::Vector2f GetPosition() const;
-    const sf::Sprite& GetSprite();
+    const sf::Sprite& GetSprite() const;
 };

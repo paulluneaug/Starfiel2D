@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-const sf::Sprite& Player::GetSprite()
+const sf::Sprite& Player::GetSprite() const
 {
     return sprite;
 }
@@ -42,6 +42,11 @@ void Player::ClampMovement()
     if (movementAcceleration != sf::Vector2f())
         movementAcceleration = movementAcceleration.normalized()*totalAcceleration;
     std::cout << totalAcceleration << std::endl;
+}
+
+void Player::Draw(sf::RenderWindow& window) const
+{
+    window.draw(sprite);
 }
 
 const sf::Vector2f Player::GetPosition() const
