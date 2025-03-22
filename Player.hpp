@@ -15,19 +15,21 @@ private:
         DOWN = sf::Keyboard::Scancode::S,
     };
     
-    const float ACCELERATION = .0001f;
+    const float ACCELERATION = 10.f;
+    const float MAX_ACCELERATION = 1.f;
     const sf::Texture TEXTURE;
     
     sf::Sprite sprite;
     std::unordered_map<Direction, bool> keyBeingPressed;
     sf::Vector2f movementAcceleration;
-    bool isXFlipped, isYFlipped;
 
     
 public:
     
     Player();
-    void HandleInput(sf::Keyboard::Scancode scancode, bool isPressed);
-    void Move();
+    void HandleInput(const sf::Keyboard::Scancode& scancode, bool isPressed);
+    void Move(const float& deltaTime);
+    void ClampMovement();
+    const sf::Vector2f GetPosition() const;
     const sf::Sprite& GetSprite();
 };

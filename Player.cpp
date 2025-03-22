@@ -1,5 +1,7 @@
 #include "Player.hpp"
 
+#include <iostream>
+
 const sf::Sprite& Player::GetSprite()
 {
     return sprite;
@@ -13,20 +15,36 @@ Player::Player() :
         {RIGHT, false},
         {UP, false},
         {DOWN, false},})
-{}
+{
+    sprite.setOrigin({TEXTURE.getSize().x/2.f, TEXTURE.getSize().y/2.f});
+}
 
-void Player::HandleInput(sf::Keyboard::Scancode scancode, bool isPressed)
+void Player::HandleInput(const sf::Keyboard::Scancode& scancode, bool isPressed)
 {
     Direction direction = Direction(scancode);
     if (auto iterator = keyBeingPressed.find(direction); iterator != keyBeingPressed.end())
         keyBeingPressed.at(direction) = isPressed;
 }
 
-void Player::Move()
+void Player::Move(const float& deltaTime)
 {
-    movementAcceleration.x += ACCELERATION * ((keyBeingPressed.at(LEFT) ? -1.f : 0.f) + (keyBeingPressed.at(RIGHT) ? 1 : 0.f));
-    movementAcceleration.y += ACCELERATION * ((keyBeingPressed.at(UP) ? -1.f : 0.f) + (keyBeingPressed.at(DOWN) ? 1 : 0.f));
+    movementAcceleration.x += ACCELERATION * deltaTime * ((keyBeingPressed.at(LEFT) ? -1.f : 0.f) + (keyBeingPressed.at(RIGHT) ? 1 : 0.f));
+    movementAcceleration.y += ACCELERATION * deltaTime * ((keyBeingPressed.at(UP) ? -1.f : 0.f) + (keyBeingPressed.at(DOWN) ? 1 : 0.f));
+    ClampMovement();
+        
     sprite.setPosition(sprite.getPosition() + movementAcceleration);
-
     sprite.setRotation(sf::radians(std::atan2(movementAcceleration.y, movementAcceleration.x)));
+}
+
+void Player::ClampMovement()
+{
+    float totalAcceleration = std::clamp(movementAcceleration.length(), -MAX_ACCELERATION, MAX_ACCELERATION);
+    if (movementAcceleration != sf::Vector2f())
+        movementAcceleration = movementAcceleration.normalized()*totalAcceleration;
+    std::cout << totalAcceleration << std::endl;
+}
+
+const sf::Vector2f Player::GetPosition() const
+{
+    return sprite.getPosition();
 }
