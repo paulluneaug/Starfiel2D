@@ -16,7 +16,9 @@ int main()
     
     Player player;
     Camera camera;
-    sf::Clock deltaTime; deltaTime.start();
+
+    sf::Clock deltaTime;
+    deltaTime.start();
 
     while (window.isOpen())
     {

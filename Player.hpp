@@ -27,7 +27,7 @@ public:
     
     Player();
     void HandleInput(const sf::Keyboard::Scancode& scancode, bool isPressed);
-    void Move(const float& deltaTime);
+    void Move(float deltaTime);
     void ClampMovement();
 
     void Draw(sf::RenderWindow& window) const;
