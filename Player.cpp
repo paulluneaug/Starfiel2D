@@ -26,14 +26,16 @@ void Player::HandleInput(const sf::Keyboard::Scancode& scancode, bool isPressed)
         keyBeingPressed.at(direction) = isPressed;
 }
 
-void Player::Move(const float& deltaTime)
+void Player::Move(float deltaTime)
 {
-    movementAcceleration.x += ACCELERATION * deltaTime * ((keyBeingPressed.at(LEFT) ? -1.f : 0.f) + (keyBeingPressed.at(RIGHT) ? 1 : 0.f));
-    movementAcceleration.y += ACCELERATION * deltaTime * ((keyBeingPressed.at(UP) ? -1.f : 0.f) + (keyBeingPressed.at(DOWN) ? 1 : 0.f));
+    movementAcceleration.x += ACCELERATION * ((keyBeingPressed.at(LEFT) ? -1.f : 0.f) + (keyBeingPressed.at(RIGHT) ? 1 : 0.f));
+    movementAcceleration.y += ACCELERATION * ((keyBeingPressed.at(UP) ? -1.f : 0.f) + (keyBeingPressed.at(DOWN) ? 1 : 0.f));
     ClampMovement();
         
-    sprite.setPosition(sprite.getPosition() + movementAcceleration);
+    sprite.setPosition(sprite.getPosition() + movementAcceleration * deltaTime);
     sprite.setRotation(sf::radians(std::atan2(movementAcceleration.y, movementAcceleration.x)));
+
+    std::cout << 1.0f / deltaTime << std::endl;
 }
 
 void Player::ClampMovement()

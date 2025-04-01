@@ -5,6 +5,7 @@
 
 #include "Camera.hpp"
 #include "Player.hpp"
+#include "Lib.h"
 
 
 int main()
@@ -16,10 +17,16 @@ int main()
     
     Player player;
     Camera camera;
-    sf::Clock deltaTime; deltaTime.start();
+
+
+    double frameStart = 0.0;
+    double frameEnd = 0.0;
 
     while (window.isOpen())
     {
+        float deltaTime = static_cast<float>(frameEnd - frameStart);
+        frameStart = Lib::GetTimeStamp();
+
         // check all the window's events that were triggered since the last iteration of the loop
         while (const std::optional event = window.pollEvent())
         {
@@ -32,7 +39,7 @@ int main()
             if (const sf::Event::KeyReleased* keyReleased = event->getIf<sf::Event::KeyReleased>())
                 player.HandleInput(keyReleased->scancode, false);
         }
-        player.Move(deltaTime.getElapsedTime().asSeconds());
+        player.Move(deltaTime);
 
         // Camera work
         camera.ChangePosition(player.GetPosition());
@@ -44,8 +51,8 @@ int main()
         player.Draw(window);
         
         window.display();
-        
-        deltaTime.restart();
+
+        frameEnd = Lib::GetTimeStamp();
     }
 
 	return 0;

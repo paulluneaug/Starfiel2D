@@ -137,11 +137,13 @@
   <ItemGroup>
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="EntryPoint.h" />
+    <ClInclude Include="Lib.h" />
     <ClInclude Include="Player.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="EntryPoint.cpp" />
+    <ClCompile Include="Lib.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>

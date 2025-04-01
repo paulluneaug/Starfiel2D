@@ -15,7 +15,7 @@ private:
     };
     
     const float ACCELERATION = 10.f;
-    const float MAX_ACCELERATION = 1.f;
+    const float MAX_ACCELERATION = 100.f;
     const sf::Texture TEXTURE;
     
     sf::Sprite sprite;
@@ -27,7 +27,7 @@ public:
     
     Player();
     void HandleInput(const sf::Keyboard::Scancode& scancode, bool isPressed);
-    void Move(const float& deltaTime);
+    void Move(float deltaTime);
     void ClampMovement();
 
     void Draw(sf::RenderWindow& window) const;
