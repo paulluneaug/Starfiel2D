@@ -40,7 +40,7 @@ void Player::Move(float deltaTime)
 
 void Player::ClampMovement()
 {
-    float totalAcceleration = std::clamp(movementAcceleration.length(), -MAX_ACCELERATION, MAX_ACCELERATION);
+    float totalAcceleration = std::clamp(movementAcceleration.length(), 0.f, MAX_ACCELERATION);
     if (movementAcceleration != sf::Vector2f())
         movementAcceleration = movementAcceleration.normalized()*totalAcceleration;
     std::cout << totalAcceleration << std::endl;
