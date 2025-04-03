@@ -135,16 +135,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Background.h" />
+    <ClInclude Include="BackgroundLayer.h" />
+    <ClInclude Include="BackgroundTile.h" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="EntryPoint.h" />
+    <ClInclude Include="GenerationSetings.h" />
+    <ClInclude Include="Hasher.h" />
     <ClInclude Include="Lib.h" />
+    <ClInclude Include="MathUtils.h" />
     <ClInclude Include="Player.hpp" />
+    <ClInclude Include="Random.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Background.cpp" />
+    <ClCompile Include="BackgroundLayer.cpp" />
+    <ClCompile Include="BackgroundTile.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="EntryPoint.cpp" />
+    <ClCompile Include="GenerationSetings.cpp" />
+    <ClCompile Include="Hasher.cpp" />
     <ClCompile Include="Lib.cpp" />
+    <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Random.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="res\starship.aseprite" />
