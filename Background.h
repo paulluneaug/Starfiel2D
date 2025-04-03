@@ -10,6 +10,7 @@ private:
 
 public:
 	Background(const GenerationSetings& generationSettings);
+	~Background();
 
 	void Draw(sf::RenderWindow& r_win, const Camera& camera);
 };

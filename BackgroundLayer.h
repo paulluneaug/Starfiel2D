@@ -28,6 +28,7 @@ private:
 
 public:
 	BackgroundLayer(float tileSize, uint32_t layerOffset, float parallaxFactor, const GenerationSetings& generationSettings);
+	~BackgroundLayer();
 
 	void Draw(sf::RenderWindow& r_win, const Camera& camera);
 

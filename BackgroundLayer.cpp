@@ -15,6 +15,14 @@ BackgroundLayer::BackgroundLayer(float tileSize, uint32_t layerOffset, float par
 	}
 }
 
+BackgroundLayer::~BackgroundLayer()
+{
+	for (BackgroundTile* tile : m_tiles)
+	{
+		delete tile;
+	}
+}
+
 void BackgroundLayer::GenerateTile(const sf::Vector2i& tilePostion)
 {
 	m_tiles[tilePostion.x + tilePostion.y * TILES_COUNT_X] = new BackgroundTile(tilePostion, m_tileSize, m_layerOffset, m_generationSettings);

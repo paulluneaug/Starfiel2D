@@ -6,6 +6,13 @@ Background::Background(const GenerationSetings& generationSettings)
 	m_layers[1] = new BackgroundLayer(150.0f, 1321354u, -0.1f, generationSettings);
 }
 
+Background::~Background()
+{
+	for (BackgroundLayer* layer : m_layers) {
+		delete layer;
+	}
+}
+
 void Background::Draw(sf::RenderWindow& r_win, const Camera& camera)
 {
 	for (BackgroundLayer* layer : m_layers) {
