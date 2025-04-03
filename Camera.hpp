@@ -18,4 +18,6 @@ public:
     
     const sf::View& GetView() const;
     const sf::RectangleShape& GetRectangleShape() const;
+
+    bool CanSee(const sf::IntRect& rect) const;
 };

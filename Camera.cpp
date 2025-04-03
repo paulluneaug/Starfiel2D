@@ -22,7 +22,7 @@ void Camera::UpdateView(sf::RenderWindow& window) const
 
 void Camera::Draw(sf::RenderWindow& window) const
 {
-    window.draw(m_rectangle);
+    //window.draw(m_rectangle);
 }
 
 const sf::View& Camera::GetView() const
@@ -33,4 +33,17 @@ const sf::View& Camera::GetView() const
 const sf::RectangleShape& Camera::GetRectangleShape() const
 {
     return m_rectangle;
+}
+
+bool Camera::CanSee(const sf::IntRect& intRect) const
+{
+    const sf::FloatRect& viewPort = m_view.getViewport();
+    sf::FloatRect rect = sf::FloatRect(
+        { static_cast<float>(intRect.position.x), static_cast<float>(intRect.position.y)},
+        { static_cast<float>(intRect.size.x), static_cast<float>(intRect.position.y) });
+
+    return viewPort.contains({ rect.position.x , rect.position.y })
+        || viewPort.contains({ rect.position.x + rect.size.x, rect.position.y })
+        || viewPort.contains({ rect.position.x, rect.position.y + rect.size.y })
+        || viewPort.contains({ rect.position.x + rect.size.x, rect.position.y + rect.size.y });
 }
