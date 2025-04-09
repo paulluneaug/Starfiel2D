@@ -1,9 +1,15 @@
 #include "Background.h"
+#include "Random.h"
 
 Background::Background(const GenerationSetings& generationSettings)
 {
-	m_layers[0] = new BackgroundLayer(200.0f, 0u, 0.0f, generationSettings);
-	m_layers[1] = new BackgroundLayer(150.0f, 1321354u, -0.1f, generationSettings);
+	uint32_t seed = generationSettings.Seed;
+
+
+	for (int iLayer = 0; iLayer < LAYERS_COUNT; ++iLayer) 
+	{
+		m_layers[LAYERS_COUNT - iLayer - 1] = new BackgroundLayer(300.0f / iLayer, Random::RandomUInt(seed), 0.9f / iLayer, generationSettings);
+	}
 }
 
 Background::~Background()
@@ -15,7 +21,8 @@ Background::~Background()
 
 void Background::Draw(sf::RenderWindow& r_win, const Camera& camera)
 {
-	for (BackgroundLayer* layer : m_layers) {
+	for (BackgroundLayer* layer : m_layers) 
+	{
 		layer->Draw(r_win, camera);
 	}
 }

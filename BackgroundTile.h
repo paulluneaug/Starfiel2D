@@ -26,7 +26,11 @@ private:
 
 public:
 	BackgroundTile(const sf::Vector2i& tilePosition, float tileSize, uint32_t layerOffset, const GenerationSetings& generationSettings);
+	~BackgroundTile();
+
 	void Draw(sf::RenderWindow& r_win, const sf::Vector2f& layerOrigin, const Camera& camera);
+
+	const sf::Vector2i& GetCoordinates();
 
 private:
 	//sf::Vector2f GetSpritePosition();

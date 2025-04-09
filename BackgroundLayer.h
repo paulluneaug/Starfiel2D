@@ -1,9 +1,11 @@
 #pragma once
 #include <queue>
 #include <array>
+#include <unordered_set>
 
 #include "BackgroundTile.h"
 #include "Camera.hpp"
+#include "Vector2iHash.h"
 
 class BackgroundLayer
 {
@@ -13,8 +15,9 @@ private:
 	static const int TILES_COUNT_X = 10;
 	static const int TILES_COUNT_Y = 10;
 
-	//std::queue<BackgroundTile> m_tiles;
-	std::array<BackgroundTile*, TILES_COUNT_X* TILES_COUNT_Y> m_tiles;
+	std::unordered_set<sf::Vector2i, Vector2iHash> m_generatedTilesCoordinates;
+
+	std::queue<BackgroundTile*> m_generatedTiles;
 
 	float m_tileSize;
 	uint32_t m_layerOffset;
@@ -34,7 +37,8 @@ public:
 
 private:
 
-	void GenerateTile(const sf::Vector2i& tilePostion);
+	void UpdateGeneratedTiles(const sf::View& cameraView, const sf::Vector2f& layerOrigin);
+	void GenerateTile(const sf::Vector2i& tilePostion, const sf::IntRect& generatedZone);
 
 };
 

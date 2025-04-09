@@ -5,7 +5,8 @@
 
 BackgroundTile::BackgroundTile(const sf::Vector2i& tilePosition, float tileSize, uint32_t layerOffset, const GenerationSetings& generationSettings) :
 	m_tilePosition(tilePosition),
-	m_seed(Hasher::GetSeedFromCoordinates(tilePosition.x, tilePosition.y, layerOffset))
+	m_seed(Hasher::GetSeedFromCoordinates(tilePosition.x, tilePosition.y, layerOffset)),
+	m_tileSprite(nullptr)
 {
 	m_hasPlanet = Random::RandomBoolProb(m_seed, generationSettings.PlanetProbability);
 	if (!m_hasPlanet) 
@@ -28,7 +29,12 @@ BackgroundTile::BackgroundTile(const sf::Vector2i& tilePosition, float tileSize,
 
 	m_tileSprite = new sf::CircleShape(spriteHalfSize);
 	m_tileSprite->setOrigin({ 0.0f, 0.0f });
-	m_tileSprite->setFillColor(sf::Color(Random::RandomUInt(m_seed)));
+	m_tileSprite->setFillColor(sf::Color(Random::RandomUInt(m_seed) | 0x000000FF));
+}
+
+BackgroundTile::~BackgroundTile()
+{
+	delete m_tileSprite;
 }
 
 void BackgroundTile::Draw(sf::RenderWindow& r_win, const sf::Vector2f& layerOrigin, const Camera& camera)
@@ -46,4 +52,9 @@ void BackgroundTile::Draw(sf::RenderWindow& r_win, const sf::Vector2f& layerOrig
 	}
 
 	r_win.draw(*m_tileSprite);
+}
+
+const sf::Vector2i& BackgroundTile::GetCoordinates()
+{
+	return m_tilePosition;
 }

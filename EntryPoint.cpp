@@ -18,7 +18,8 @@ int main()
 
 	GenerationSetings generationSettings;
 	generationSettings.PlanetsSizeRange = { 0.1f, 0.5f };
-	generationSettings.PlanetProbability = 0.8f;
+	generationSettings.PlanetProbability = 0.6f;
+	generationSettings.Seed = 259u;
 
 	Background background{ generationSettings };
 
