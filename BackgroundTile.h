@@ -11,6 +11,7 @@ class BackgroundTile
 {
 private:
 	sf::Vector2i m_tilePosition;
+	sf::Vector2f m_center;
 
 	/// <summary>
 	/// Sprite position in the tile layer's repère
@@ -20,12 +21,14 @@ private:
 
 	uint32_t m_seed;
 
-	sf::Shape* m_tileSprite;
+	sf::Texture m_texture;
+	sf::Sprite* m_tileSprite;
+	sf::Shader& m_planetShader;
 
 	bool m_hasPlanet;
 
 public:
-	BackgroundTile(const sf::Vector2i& tilePosition, float tileSize, uint32_t layerOffset, const GenerationSetings& generationSettings);
+	BackgroundTile(const sf::Vector2i& tilePosition, float tileSize, uint32_t layerOffset, GenerationSetings& generationSettings);
 	void Draw(sf::RenderWindow& r_win, const sf::Vector2f& layerOrigin, const Camera& camera);
 
 private:

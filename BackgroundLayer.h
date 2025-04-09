@@ -21,13 +21,13 @@ private:
 
 	float m_parallaxFactor;
 
-	const GenerationSetings& m_generationSettings;
+	GenerationSetings& m_generationSettings;
 
 
 
 
 public:
-	BackgroundLayer(float tileSize, uint32_t layerOffset, float parallaxFactor, const GenerationSetings& generationSettings);
+	BackgroundLayer(float tileSize, uint32_t layerOffset, float parallaxFactor, GenerationSetings& generationSettings);
 	~BackgroundLayer();
 
 	void Draw(sf::RenderWindow& r_win, const Camera& camera);

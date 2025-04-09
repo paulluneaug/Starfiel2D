@@ -1,6 +1,6 @@
 #include "BackgroundLayer.h"
 
-BackgroundLayer::BackgroundLayer(float tileSize, uint32_t layerOffset, float parallaxFactor, const GenerationSetings& generationSettings) :
+BackgroundLayer::BackgroundLayer(float tileSize, uint32_t layerOffset, float parallaxFactor, GenerationSetings& generationSettings) :
 	m_tileSize(tileSize),
 	m_layerOffset(layerOffset),
 	m_parallaxFactor(parallaxFactor),
