@@ -128,19 +128,19 @@ void main()
     if(noise.x < seaHeight)
     {
         HSVColor.x -= hueShift;
-        HSVColor.y = seaSaturation;
-        HSVColor.z = seaValue;
+        HSVColor.y = seaSaturation*(noise.x);
+        HSVColor.z = seaValue*(noise.x);
     }
     else if(noise.x > mountainHeight)
     {
         HSVColor.x += hueShift;
-        HSVColor.y = mountainSaturation;
-        HSVColor.z = mountainValue;
+        HSVColor.y = mountainSaturation*(noise.x);
+        HSVColor.z = mountainValue*(noise.x);
     }
     else
     {
-        HSVColor.y = normalSaturation;
-        HSVColor.z = normalValue;
+        HSVColor.y = normalSaturation*(noise.x);
+        HSVColor.z = normalValue*(noise.x);
     }
     
     vec3 RGBColor;
