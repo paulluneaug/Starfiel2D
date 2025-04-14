@@ -8,7 +8,7 @@ public:
 	sf::Vector2f PlanetsSizeRange;
 	float PlanetProbability;
 	sf::Texture NoiseTexure;
-	sf::Shader PlanetShader;
+	sf::Shader PlanetShader, StarShader;
 
 	void Init();
 };

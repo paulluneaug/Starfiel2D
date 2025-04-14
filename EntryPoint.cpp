@@ -23,6 +23,8 @@ int main()
 		std::cerr << "Failed to load noise texture" << std::endl;
 	if (!generationSettings.PlanetShader.loadFromFile("Shaders/planet_shader.vert", "Shaders/planet_shader.frag"))
 		std::cerr << "Shader didnt load well" << std::endl;
+	if (!generationSettings.StarShader.loadFromFile("Shaders/star.vert", "Shaders/star.frag"))
+		std::cerr << "Shader didnt load well" << std::endl;
 	generationSettings.Init();
 
 	Background background{ generationSettings };

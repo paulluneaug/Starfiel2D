@@ -6,7 +6,7 @@
 #include "Random.h"
 
 BackgroundTile::BackgroundTile(const sf::Vector2i& tilePosition, float tileSize, uint32_t layerOffset, GenerationSetings& generationSettings) :
-	m_tilePosition(tilePosition), m_planetShader(generationSettings.PlanetShader),
+	m_tilePosition(tilePosition), m_planetShader(generationSettings.StarShader),
 	m_seed(Hasher::GetSeedFromCoordinates(tilePosition.x, tilePosition.y, layerOffset))
 {
 	m_hasPlanet = Random::RandomBoolProb(m_seed, generationSettings.PlanetProbability);

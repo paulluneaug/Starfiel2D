@@ -169,6 +169,8 @@
     <Content Include="res\starship.png" />
     <Content Include="Shaders\planet_shader.frag" />
     <Content Include="Shaders\planet_shader.vert" />
+    <Content Include="Shaders\star.frag" />
+    <Content Include="Shaders\star.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
