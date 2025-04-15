@@ -111,36 +111,37 @@ void main()
     vec3 HSVColor;
     RGBToHSV(gl_Color.xyz, HSVColor);
     
-    float normalSaturation = .6;
-    float normalValue = .6;
+    float normalSaturation = 1.2;
+    float normalValue = 1.5;
     
-    float seaHeight = .35;
-    float seaSaturation = .3;
-    float seaValue = .3;
+    float seaHeight = .15;
+    float seaHue = 3.5;
+    float seaSaturation = 4;
+    float seaValue = 1.5;
     
-    float mountainHeight = .7;
-    float mountainSaturation = 1;
-    float mountainValue = 1;
+    float mountainHeight = .8;
+    float mountainSaturation = .8f;
+    float mountainValue = 1.2f;
     
     float hueShift = .1;
     
     
     if(noise.x < seaHeight)
     {
-        HSVColor.x -= hueShift;
-        HSVColor.y = seaSaturation*(noise.x);
-        HSVColor.z = seaValue*(noise.x);
+        HSVColor.x = seaHue + sign(HSVColor.x - seaHue) * hueShift;
+        HSVColor.y = seaSaturation*(noise.x*noise.x);
+        HSVColor.z = seaValue*(noise.x*noise.x);
     }
     else if(noise.x > mountainHeight)
     {
         HSVColor.x += hueShift;
-        HSVColor.y = mountainSaturation*(noise.x);
-        HSVColor.z = mountainValue*(noise.x);
+        HSVColor.y = mountainSaturation*(noise.x*noise.x);
+        HSVColor.z = mountainValue*(noise.x*noise.x);
     }
     else
     {
-        HSVColor.y = normalSaturation*(noise.x);
-        HSVColor.z = normalValue*(noise.x);
+        HSVColor.y = normalSaturation*(noise.x*noise.x);
+        HSVColor.z = normalValue*(noise.x*noise.x);
     }
     
     vec3 RGBColor;
@@ -148,9 +149,9 @@ void main()
 
     
     // RGB - HSV Conversion Test
-    vec3 HSVTest, RGBTest;
-    RGBToHSV(gl_Color.xyz, HSVTest);
-    HSVToRGB(HSVTest, RGBTest);
+    // vec3 HSVTest, RGBTest;
+    // RGBToHSV(gl_Color.xyz, HSVTest);
+    // HSVToRGB(HSVTest, RGBTest);
     
     // multiply it by the color
     //gl_FragColor = gl_Color * vec4(noise.xyz, 1);
