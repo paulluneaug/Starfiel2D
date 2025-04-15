@@ -4,19 +4,22 @@
 
 const sf::Sprite& Player::GetSprite() const
 {
-    return sprite;
+    return m_sprite;
 }
 
 Player::Player() :
     TEXTURE("res/starship.png"),
-    sprite(TEXTURE),
+    m_sprite(TEXTURE),
     keyBeingPressed({
         {LEFT, false},
         {RIGHT, false},
         {UP, false},
-        {DOWN, false},})
+        {DOWN, false},}),
+    m_reactors("res/reactors.wav")
 {
-    sprite.setOrigin({TEXTURE.getSize().x/2.f, TEXTURE.getSize().y/2.f});
+    m_sprite.setOrigin({TEXTURE.getSize().x/2.f, TEXTURE.getSize().y/2.f});
+    m_reactors.setLoopPoints({sf::milliseconds(500),m_reactors.getDuration()-sf::milliseconds(2000)});
+    m_reactors.setLooping(true);
 }
 
 void Player::HandleInput(const sf::Keyboard::Scancode& scancode, bool isPressed)
@@ -28,12 +31,29 @@ void Player::HandleInput(const sf::Keyboard::Scancode& scancode, bool isPressed)
 
 void Player::Move(float deltaTime)
 {
-    movementAcceleration.x += ACCELERATION * ((keyBeingPressed.at(LEFT) ? -1.f : 0.f) + (keyBeingPressed.at(RIGHT) ? 1 : 0.f));
-    movementAcceleration.y += ACCELERATION * ((keyBeingPressed.at(UP) ? -1.f : 0.f) + (keyBeingPressed.at(DOWN) ? 1 : 0.f));
+    int xAcceleration = (keyBeingPressed.at(LEFT) ? -1 : 0) + (keyBeingPressed.at(RIGHT) ? 1 : 0);
+    int yAcceleration = (keyBeingPressed.at(UP) ? -1 : 0) + (keyBeingPressed.at(DOWN) ? 1 : 0);
+    movementAcceleration.x += ACCELERATION * static_cast<float>(xAcceleration);
+    movementAcceleration.y += ACCELERATION * static_cast<float>(yAcceleration);
+
+    if (xAcceleration != 0 || yAcceleration != 0)
+    {
+        if (!m_isReactorsPlaying)
+        {
+            m_reactors.play();
+            m_isReactorsPlaying = true;
+        }
+    }
+    else if (m_isReactorsPlaying)
+    {
+        m_reactors.stop();
+        m_isReactorsPlaying = false;
+    }
+    
     ClampMovement();
         
-    sprite.setPosition(sprite.getPosition() + movementAcceleration * deltaTime);
-    sprite.setRotation(sf::radians(std::atan2(movementAcceleration.y, movementAcceleration.x)));
+    m_sprite.setPosition(m_sprite.getPosition() + movementAcceleration * deltaTime);
+    m_sprite.setRotation(sf::radians(std::atan2(movementAcceleration.y, movementAcceleration.x)));
 
     std::cout << 1.0f / deltaTime << std::endl;
 }
@@ -48,10 +68,10 @@ void Player::ClampMovement()
 
 void Player::Draw(sf::RenderWindow& window) const
 {
-    window.draw(sprite);
+    window.draw(m_sprite);
 }
 
 const sf::Vector2f Player::GetPosition() const
 {
-    return sprite.getPosition();
+    return m_sprite.getPosition();
 }

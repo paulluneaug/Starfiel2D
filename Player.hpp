@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
 
 class Player
 {
@@ -18,7 +19,10 @@ private:
     const float MAX_ACCELERATION = 100.f;
     const sf::Texture TEXTURE;
     
-    sf::Sprite sprite;
+    sf::Sprite m_sprite;
+    sf::Music m_reactors;
+    bool m_isReactorsPlaying;
+    
     std::unordered_map<Direction, bool> keyBeingPressed;
     sf::Vector2f movementAcceleration;
 
