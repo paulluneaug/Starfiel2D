@@ -1,5 +1,7 @@
 #include "Camera.hpp"
 
+#include <iostream>
+
 Camera::Camera() : m_texture("res/PSY.png"), m_rectangle({800*10,800*10}), m_view({0.f,0.f}, {400.f, 400.f})
 {
     m_texture.setRepeated(true);
@@ -12,7 +14,13 @@ Camera::Camera() : m_texture("res/PSY.png"), m_rectangle({800*10,800*10}), m_vie
 
 void Camera::ChangePosition(const sf::Vector2f& playerPosition)
 {
-    m_view.setCenter(playerPosition);
+    sf::Vector2f positionDifference = playerPosition - m_view.getCenter();
+    if (positionDifference.lengthSquared() < std::numeric_limits<float>::epsilon())
+        m_view.setCenter(playerPosition);
+    else
+    {
+        m_view.move(positionDifference.componentWiseMul(positionDifference).componentWiseMul(positionDifference) * CAMERA_SNAP);
+    }
 }
 
 void Camera::UpdateView(sf::RenderWindow& window) const

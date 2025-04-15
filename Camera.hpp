@@ -4,6 +4,8 @@
 class Camera
 {
 private:
+    const float CAMERA_SNAP = 0.000001f;
+    
     sf::Texture m_texture;
     sf::RectangleShape m_rectangle;
     sf::View m_view;
