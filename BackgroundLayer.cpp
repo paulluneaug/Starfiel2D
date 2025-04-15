@@ -1,10 +1,11 @@
 #include "BackgroundLayer.h"
 
-BackgroundLayer::BackgroundLayer(float tileSize, uint32_t layerOffset, float parallaxFactor, GenerationSetings& generationSettings) :
+BackgroundLayer::BackgroundLayer(float tileSize, uint32_t layerOffset, float parallaxFactor, GenerationSetings& generationSettings, bool isStarry) :
 	m_tileSize(tileSize),
 	m_layerOffset(layerOffset),
 	m_parallaxFactor(parallaxFactor),
-	m_generationSettings(generationSettings)
+	m_generationSettings(generationSettings),
+	m_isStarry(isStarry)
 {
 	for (int ix = 0; ix < TILES_COUNT_X; ++ix) 
 	{
@@ -25,7 +26,7 @@ BackgroundLayer::~BackgroundLayer()
 
 void BackgroundLayer::GenerateTile(const sf::Vector2i& tilePostion)
 {
-	m_tiles[tilePostion.x + tilePostion.y * TILES_COUNT_X] = new BackgroundTile(tilePostion, m_tileSize, m_layerOffset, m_generationSettings);
+	m_tiles[tilePostion.x + tilePostion.y * TILES_COUNT_X] = new BackgroundTile(tilePostion, m_tileSize, m_layerOffset, m_generationSettings, m_isStarry);
 }
 
 void BackgroundLayer::Draw(sf::RenderWindow& r_win, const Camera& camera)

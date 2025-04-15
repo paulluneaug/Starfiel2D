@@ -5,8 +5,8 @@
 #include "Hasher.h"
 #include "Random.h"
 
-BackgroundTile::BackgroundTile(const sf::Vector2i& tilePosition, float tileSize, uint32_t layerOffset, GenerationSetings& generationSettings) :
-	m_tilePosition(tilePosition), m_planetShader(generationSettings.StarShader),
+BackgroundTile::BackgroundTile(const sf::Vector2i& tilePosition, float tileSize, uint32_t layerOffset, GenerationSetings& generationSettings, bool isStar) :
+	m_tilePosition(tilePosition), m_planetShader(generationSettings.PlanetShader), m_starShader(generationSettings.StarShader), m_isStar(isStar),
 	m_seed(Hasher::GetSeedFromCoordinates(tilePosition.x, tilePosition.y, layerOffset))
 {
 	m_hasPlanet = Random::RandomBoolProb(m_seed, generationSettings.PlanetProbability);
@@ -54,5 +54,7 @@ void BackgroundTile::Draw(sf::RenderWindow& r_win, const sf::Vector2f& layerOrig
 	}
 	sf::Glsl::Vec4 noiseUV = {m_center.x, m_center.y, m_tileSprite->getScale().x/2048, m_tileSprite->getScale().y/2048};
 	m_planetShader.setUniform("NoiseUV", noiseUV);
-	r_win.draw(*m_tileSprite, &m_planetShader);
+
+	sf::Shader& shader = m_isStar ? m_starShader : m_planetShader;
+	r_win.draw(*m_tileSprite, &shader);
 }

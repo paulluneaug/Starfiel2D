@@ -44,7 +44,7 @@ void main()
     }
     else
     {
-        pointDistance = (pow(pointDistance, 1.f/iterationNb) - .5) * 9;
+        pointDistance = (pow(pointDistance, 1.f/iterationNb) - .5) * 20;
         gl_FragColor = gl_Color * vec4(pointDistance, pointDistance, pointDistance, 1);
     }
 }

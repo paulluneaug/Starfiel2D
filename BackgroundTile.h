@@ -24,11 +24,13 @@ private:
 	sf::Texture m_texture;
 	sf::Sprite* m_tileSprite;
 	sf::Shader& m_planetShader;
+	sf::Shader& m_starShader;
 
 	bool m_hasPlanet;
+	bool m_isStar;
 
 public:
-	BackgroundTile(const sf::Vector2i& tilePosition, float tileSize, uint32_t layerOffset, GenerationSetings& generationSettings);
+	BackgroundTile(const sf::Vector2i& tilePosition, float tileSize, uint32_t layerOffset, GenerationSetings& generationSettings, bool isStar);
 	void Draw(sf::RenderWindow& r_win, const sf::Vector2f& layerOrigin, const Camera& camera);
 
 private:

@@ -23,11 +23,11 @@ private:
 
 	GenerationSetings& m_generationSettings;
 
-
+	bool m_isStarry;
 
 
 public:
-	BackgroundLayer(float tileSize, uint32_t layerOffset, float parallaxFactor, GenerationSetings& generationSettings);
+	BackgroundLayer(float tileSize, uint32_t layerOffset, float parallaxFactor, GenerationSetings& generationSettings, bool isStarry = false);
 	~BackgroundLayer();
 
 	void Draw(sf::RenderWindow& r_win, const Camera& camera);
