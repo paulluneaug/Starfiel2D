@@ -18,7 +18,8 @@ Background::~Background()
 
 void Background::Draw(sf::RenderWindow& r_win, const Camera& camera)
 {
-	for (BackgroundLayer* layer : m_layers) {
+	for (BackgroundLayer* layer : m_layers) 
+	{
 		layer->Draw(r_win, camera);
 	}
 }

@@ -14,7 +14,7 @@ private:
 	sf::Vector2f m_center;
 
 	/// <summary>
-	/// Sprite position in the tile layer's repère
+	/// Sprite position in the tile layer's repï¿½re
 	/// </summary>
 	sf::Vector2f m_spriteOffset;
 	sf::FloatRect m_spriteRect;
@@ -31,7 +31,11 @@ private:
 
 public:
 	BackgroundTile(const sf::Vector2i& tilePosition, float tileSize, uint32_t layerOffset, GenerationSetings& generationSettings, bool isStar);
+	~BackgroundTile();
+
 	void Draw(sf::RenderWindow& r_win, const sf::Vector2f& layerOrigin, const Camera& camera);
+
+	const sf::Vector2i& GetCoordinates();
 
 private:
 	//sf::Vector2f GetSpritePosition();

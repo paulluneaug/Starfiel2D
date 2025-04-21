@@ -146,6 +146,7 @@
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Random.h" />
+    <ClInclude Include="Vector2iHash.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Background.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Random.cpp" />
+    <ClCompile Include="Vector2iHash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="res\noiseTexture.png" />

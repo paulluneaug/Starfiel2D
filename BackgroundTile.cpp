@@ -6,8 +6,11 @@
 #include "Random.h"
 
 BackgroundTile::BackgroundTile(const sf::Vector2i& tilePosition, float tileSize, uint32_t layerOffset, GenerationSetings& generationSettings, bool isStar) :
-	m_tilePosition(tilePosition), m_planetShader(generationSettings.PlanetShader), m_starShader(generationSettings.StarShader), m_isStar(isStar),
-	m_seed(Hasher::GetSeedFromCoordinates(tilePosition.x, tilePosition.y, layerOffset))
+	m_tilePosition(tilePosition),
+	m_seed(Hasher::GetSeedFromCoordinates(tilePosition.x, tilePosition.y, layerOffset)), 
+	m_planetShader(generationSettings.PlanetShader), 
+	m_starShader(generationSettings.StarShader), 
+	m_isStar(isStar)
 {
 	m_hasPlanet = Random::RandomBoolProb(m_seed, generationSettings.PlanetProbability);
 	if (!m_hasPlanet) 
@@ -34,9 +37,14 @@ BackgroundTile::BackgroundTile(const sf::Vector2i& tilePosition, float tileSize,
 	// Sprite for planet
 	m_tileSprite = new sf::Sprite(m_texture);
 	std::cout << spriteSize << std::endl;
-	m_tileSprite->setScale({spriteSize, spriteSize});
+	m_tileSprite->setScale({ spriteSize, spriteSize });
 	m_tileSprite->setOrigin(m_center);
 	m_tileSprite->setColor(sf::Color(Random::RandomUInt(m_seed) | 0x000000FF));
+}
+
+BackgroundTile::~BackgroundTile()
+{
+	delete m_tileSprite;
 }
 
 void BackgroundTile::Draw(sf::RenderWindow& r_win, const sf::Vector2f& layerOrigin, const Camera& camera)
@@ -57,4 +65,9 @@ void BackgroundTile::Draw(sf::RenderWindow& r_win, const sf::Vector2f& layerOrig
 
 	sf::Shader& shader = m_isStar ? m_starShader : m_planetShader;
 	r_win.draw(*m_tileSprite, &shader);
+}
+
+const sf::Vector2i& BackgroundTile::GetCoordinates()
+{
+	return m_tilePosition;
 }

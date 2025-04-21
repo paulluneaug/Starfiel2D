@@ -18,7 +18,9 @@ int main()
 
 	GenerationSetings generationSettings;
 	generationSettings.PlanetsSizeRange = { 0.01f, 0.05f };
-	generationSettings.PlanetProbability = 0.8f;
+	generationSettings.PlanetProbability = 0.6f;
+	generationSettings.Seed = 259u;
+
 	if (!generationSettings.NoiseTexure.loadFromFile("res/noiseTexture.png"))
 		std::cerr << "Failed to load noise texture" << std::endl;
 	if (!generationSettings.PlanetShader.loadFromFile("Shaders/planet_shader.vert", "Shaders/planet_shader.frag"))
