@@ -36,7 +36,7 @@ BackgroundTile::BackgroundTile(const sf::Vector2i& tilePosition, float tileSize,
 
 	// Sprite for planet
 	m_tileSprite = new sf::Sprite(m_texture);
-	std::cout << spriteSize << std::endl;
+	//std::cout << spriteSize << std::endl;
 	m_tileSprite->setScale({ spriteSize, spriteSize });
 	m_tileSprite->setOrigin(m_center);
 	m_tileSprite->setColor(sf::Color(Random::RandomUInt(m_seed) | 0x000000FF));

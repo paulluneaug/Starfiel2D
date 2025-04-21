@@ -55,7 +55,7 @@ void Player::Move(float deltaTime)
     m_sprite.setPosition(m_sprite.getPosition() + movementAcceleration * deltaTime);
     m_sprite.setRotation(sf::radians(std::atan2(movementAcceleration.y, movementAcceleration.x)));
 
-    std::cout << 1.0f / deltaTime << std::endl;
+    //std::cout << 1.0f / deltaTime << std::endl;
 }
 
 void Player::ClampMovement()
@@ -63,7 +63,7 @@ void Player::ClampMovement()
     float totalAcceleration = std::clamp(movementAcceleration.length(), 0.f, MAX_ACCELERATION);
     if (movementAcceleration != sf::Vector2f())
         movementAcceleration = movementAcceleration.normalized()*totalAcceleration;
-    std::cout << totalAcceleration << std::endl;
+    //std::cout << totalAcceleration << std::endl;
 }
 
 void Player::Draw(sf::RenderWindow& window) const
