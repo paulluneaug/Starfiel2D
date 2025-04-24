@@ -1,7 +1,4 @@
-#extension GL_EXT_gpu_shader4 : enable
-
 uniform sampler2D texture;
-uniform sampler2D Noise;
 uniform vec4 NoiseUV;
 
 #define PI 3.1415926535
@@ -20,99 +17,21 @@ void Interpolate(in float a0, in float a1, in float w, out float returnValue)
     returnValue = a0 + (a1 - a0) * smoothValue;
 }
 
-// Hash function from H. Schechter & R. Bridson, goo.gl/RXiKaH
-void Hash(in uint s, out uint hashedValue)
-{
-    s ^= 2747636419u;
-    s *= 2654435769u;
-    s ^= s >> 16u;
-    s *= 2654435769u;
-    s ^= s >> 16u;
-    s *= 2654435769u;
-    hashedValue = s;
+float rand(vec2 co)
+{    
+    return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
-void RandomFloat(inout uint seed, out float randomFloat)
-{
-    uint hashedSeed;
-    Hash(seed, hashedSeed);
-    seed = hashedSeed;
-
-    float random = float(seed) / 4294967295.0; // 2^32-1 
-    randomFloat = random * 2.0 - 1.0; // [-1;1]
-}
-
-void RandomFloat3InsideUnitSphere(inout uint seed, out vec3 randomVec)
-{
-    do
-    {
-        float x, y, z;
-        RandomFloat(seed, x);
-        RandomFloat(seed, y);
-        RandomFloat(seed, z);
-
-        randomVec = vec3(x, y, z);
-    } while (randomVec.x * randomVec.x + randomVec.y * randomVec.y + randomVec.z * randomVec.z > 1.0);
-}
-
-// Noise generation inspired by the Perlin Noise Wikipedia article (https://en.wikipedia.org/wiki/Perlin_noise)
-void RandomGradient(in int ix, in int iy, in int iz, in int gradientOffset, out vec3 gradient)
-{
-    // No precomputed gradients mean this works for any number of grid coordinates
-    uint w = 8u * 4u;
-    uint s = w / 2u;
-    uint a = uint(ix), b = uint(iy), c = uint(iz);
-    a *= 3284157443u;
-    b ^= a << s | a >> w - s;
-    b *= 1911520717u - uint(abs(gradientOffset));
-    c ^= b << s | b >> w - s;
-    c *= 1529716214u;
-    a ^= c << s | c >> w - s;
-    a *= 2048419325u;
-    
-    RandomFloat3InsideUnitSphere(a, gradient);
-}
-
-float rand(vec2 co){    return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);}
-// Noise generation inspired by the Perlin Noise Wikipedia article (https://en.wikipedia.org/wiki/Perlin_noise)
-void RandomGradient2D(in float ix, in float iy, in int gradientOffset, out vec2 gradient)
-{
-    // No precomputed gradients mean this works for any number of grid coordinates
-    uint w = 32;
-    uint s = 16;
-    uint a = ix, b = iy;
-    // a = mod(a * 3284157443, 1u << 31);
-    // b ^= a << s | a >> w - s;
-    // b = mod(b * 1911520717, 1u << 31);
-    // a ^= b << s | b >> w - s;
-    // a = mod(a * 2048419325, 1u << 31);
-    
-
+void RandomGradient2D(in float ix, in float iy, out vec2 gradient)
+{ 
     float random = rand(vec2(ix, iy)) * 2 * PI;
-    // gradient = vec2(cos(PI / 4), sin(PI / 4));
     gradient = vec2(cos(random), sin(random));
 }
 
-
-
-void DotGridGradient(in int ix, in int iy, in int iz, in float x, in float y, in float z, in int gradientOffset, out float dotGridGradient)
-{
-    vec3 randomVec;
-    RandomGradient(ix, iy, iz, gradientOffset, randomVec);
-    
-    // Compute the distance vector
-    float dx = x - float(ix);
-    float dy = y - float(iy);
-    float dz = z - float(iz);
- 
-    // Compute the dot-product
-    dotGridGradient = dx * randomVec.x + dy * randomVec.y + dz * randomVec.z;
-}
-
-void DotGridGradient2D(in float ix, in float iy, in float x, in float y, in int gradientOffset, out float dotGridGradient)
+void DotGridGradient2D(in float ix, in float iy, in float x, in float y, out float dotGridGradient)
 {
     vec2 randomVec;
-    RandomGradient2D(ix, iy, gradientOffset, randomVec);
+    RandomGradient2D(ix, iy, randomVec);
     
     // Compute the distance vector
     float dx = x - ix;
@@ -141,11 +60,6 @@ void PerlinNoise2D (in vec2 position, in float startNoiseScale, in int harmonics
         float x1 = x0 + 1.0;
         float y0 = floor(y);
         float y1 = y0 + 1.0;
-
-        // x0 = 0;
-        // x1 = 1;
-        // y0 = 0;
-        // y1 = 1;
  
         // Determine interpolation weights
         // Could also use higher order polynomial/s-curve here
@@ -155,21 +69,19 @@ void PerlinNoise2D (in vec2 position, in float startNoiseScale, in int harmonics
         float n0, n1, n2, n3, ix0, ix1, layerValue;
  
         // Interpolate between grid point gradients
-        DotGridGradient2D(x0, y0, x, y, 0, n0);
-        DotGridGradient2D(x1, y0, x, y, 0, n1);
+        DotGridGradient2D(x0, y0, x, y, n0);
+        DotGridGradient2D(x1, y0, x, y, n1);
         Interpolate(n0, n1, sx, ix0);
 
 
-        DotGridGradient2D(x0, y1, x, y, 0, n2);
-        DotGridGradient2D(x1, y1, x, y, 0, n3);//Ici le problème
+        DotGridGradient2D(x0, y1, x, y, n2);
+        DotGridGradient2D(x1, y1, x, y, n3);//Ici le problème
         Interpolate(n2, n3, sx, ix1);
 
         Interpolate(ix0, ix1, sy, layerValue);
     
         layerValue = (layerValue + 1) / 2.0;
 
-
-        float debugx = abs(x1 - y1);
         
         unNormalizedNoiseValue += layerValue * layerWeigth;
 
