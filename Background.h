@@ -4,7 +4,7 @@
 class Background
 {
 private:
-	static const int LAYERS_COUNT = 3;
+	static const int LAYERS_COUNT = 4;
 
 	std::array<BackgroundLayer*, LAYERS_COUNT> m_layers;
 

@@ -11,6 +11,12 @@ uint32_t Hasher::Hash(uint32_t s)
     return s;
 }
 
+uint32_t Hasher::HashRef(uint32_t& s)
+{
+    s = Hasher::Hash(s);
+    return s;
+}
+
 uint32_t Hasher::GetSeedFromCoordinates(int x, int y, uint32_t offset)
 {
     uint32_t w = 8 * 4;

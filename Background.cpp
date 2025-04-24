@@ -1,12 +1,19 @@
 #include "Background.h"
 
 #include <iostream>
+#include "Hasher.h"
+#include "Lib.h"
 
 Background::Background(GenerationSetings& generationSettings)
 {
-	m_layers[0] = new BackgroundLayer(100.0f, 2000000u, .9f, generationSettings, true);
-	m_layers[1] = new BackgroundLayer(200.0f, 0u, 0.0f, generationSettings);
-	m_layers[2] = new BackgroundLayer(150.0f, 1321354u, -0.1f, generationSettings);
+	uint32_t seed = generationSettings.Seed;
+	int layerIndex = 0;
+	
+	//m_layers[layerIndex++] = new BackgroundLayer(100.0f, Hasher::HashRef(seed), .99f, generationSettings, true);
+	m_layers[layerIndex++] = new BackgroundLayer(100.0f, Hasher::HashRef(seed), .95f, generationSettings, true);
+	m_layers[layerIndex++] = new BackgroundLayer(200.0f, Hasher::HashRef(seed), .9f, generationSettings, true);
+	m_layers[layerIndex++] = new BackgroundLayer(200.0f, Hasher::HashRef(seed), 0.0f, generationSettings);
+	m_layers[layerIndex++] = new BackgroundLayer(150.0f, Hasher::HashRef(seed), -0.1f, generationSettings);
 }
 
 Background::~Background()

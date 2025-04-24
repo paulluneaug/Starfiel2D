@@ -11,7 +11,7 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode({ 800, 800 }), "StarField2D", sf::Style::Close, sf::State::Windowed);
+	sf::RenderWindow window(sf::VideoMode({ 1920, 1080 }), "StarField2D", sf::Style::Close, sf::State::Fullscreen);
 	std::cout << "Hello World" << std::endl;
 
 	// Background
@@ -19,7 +19,9 @@ int main()
 	GenerationSetings generationSettings;
 	generationSettings.PlanetsSizeRange = { 0.01f, 0.05f };
 	generationSettings.PlanetProbability = 0.6f;
-	generationSettings.Seed = 259u;
+	generationSettings.Seed = static_cast<uint32_t>(Lib::GetTimeStamp());
+	std::cout << generationSettings.Seed << std::endl;
+
 
 	if (!generationSettings.NoiseTexure.loadFromFile("res/noiseTexture.png"))
 		std::cerr << "Failed to load noise texture" << std::endl;
@@ -32,7 +34,7 @@ int main()
 	Background background{ generationSettings };
 
 	Player player;
-	Camera camera;
+	Camera camera{window};
 
 
 	double frameStart = 0.0;
@@ -41,7 +43,7 @@ int main()
 	while (window.isOpen())
 	{
 		float deltaTime = static_cast<float>(frameEnd - frameStart);
-		frameStart = Lib::GetTimeStamp();
+		frameStart = Lib::GetTimeStampNs();
 
 		// check all the window's events that were triggered since the last iteration of the loop
 		while (const std::optional event = window.pollEvent())
@@ -69,7 +71,7 @@ int main()
 
 		window.display();
 
-		frameEnd = Lib::GetTimeStamp();
+		frameEnd = Lib::GetTimeStampNs();
 	}
 
 	return 0;

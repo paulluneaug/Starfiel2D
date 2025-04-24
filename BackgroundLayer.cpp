@@ -34,13 +34,13 @@ void BackgroundLayer::UpdateGeneratedTiles(const sf::View& cameraView, const sf:
 
 	sf::Vector2i position
 	{
-		static_cast<int>((center.x - viewSize.x / 2.0f) / m_tileSize) - 1,
-		static_cast<int>((center.y - viewSize.y / 2.0f) / m_tileSize) - 1
+		static_cast<int>((center.x - viewSize.x / 2.0f) / m_tileSize) - 2,
+		static_cast<int>((center.y - viewSize.y / 2.0f) / m_tileSize) - 2
 	};
 	sf::Vector2i size
 	{
-		static_cast<int>(ceilf(viewSize.x / m_tileSize)) + 2,
-		static_cast<int>(ceilf(viewSize.y / m_tileSize)) + 2
+		static_cast<int>(ceilf(viewSize.x / m_tileSize)) + 4,
+		static_cast<int>(ceilf(viewSize.y / m_tileSize)) + 4
 	};
 
 	sf::IntRect generatedZone

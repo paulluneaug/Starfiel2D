@@ -20,14 +20,16 @@ BackgroundTile::BackgroundTile(const sf::Vector2i& tilePosition, float tileSize,
 	
 	m_center = {Random::RandomFloat01(m_seed), Random::RandomFloat01(m_seed)};
 
+	std::cout << m_center.x << " " << m_center.y << std::endl;
+
 	const sf::Vector2f& sizeRange = generationSettings.PlanetsSizeRange;
 	float spriteSize = MathUtils::RemapFrom01(Random::RandomFloat01(m_seed), sizeRange.x, sizeRange.y) * tileSize;
 	float spriteHalfSize = spriteSize / 2.0f;
 
 	m_spriteOffset =
 	{
-		tilePosition.x * tileSize + m_center.x + spriteHalfSize,
-		tilePosition.y * tileSize + m_center.y + spriteHalfSize
+		(tilePosition.x + m_center.x) * tileSize + spriteHalfSize,
+		(tilePosition.y + m_center.y) * tileSize + spriteHalfSize
 	};
 
 	// Texture for planet

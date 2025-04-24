@@ -2,14 +2,8 @@
 
 #include <iostream>
 
-Camera::Camera() : m_texture("res/PSY.png"), m_rectangle({800*10,800*10}), m_view({0.f,0.f}, {400.f, 400.f})
+Camera::Camera(sf::RenderWindow& window) : m_view({0.f,0.f}, static_cast<sf::Vector2f>(window.getSize()) / 4.f)
 {
-    m_texture.setRepeated(true);
-
-    m_rectangle.setPosition({0,0});
-    m_rectangle.setOrigin({m_rectangle.getSize().x / 2, m_rectangle.getSize().y / 2});
-    m_rectangle.setTexture(&m_texture);
-    m_rectangle.setTextureRect({{0,0}, {static_cast<int>(m_texture.getSize().x*10),static_cast<int>(m_texture.getSize().y*10)}});
 }
 
 void Camera::ChangePosition(const sf::Vector2f& playerPosition)
@@ -38,10 +32,6 @@ const sf::View& Camera::GetView() const
     return m_view;
 }
 
-const sf::RectangleShape& Camera::GetRectangleShape() const
-{
-    return m_rectangle;
-}
 
 bool Camera::CanSee(const sf::IntRect& intRect) const
 {
